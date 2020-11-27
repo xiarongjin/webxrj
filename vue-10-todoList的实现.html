@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小夏的时间管理</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" placeholder="请输入要添加的日程" v-model='newTodo'>
+        <button @click='pushTodo()'>添加进日程</button>
+        <div >
+            <span>未完成</span>
+            <div v-for='item,index in todoList'> 
+                <template v-if='item.staus===0'>
+                    <br><input  v-key='item.todo' type="checkbox" @click='pushDo(item,$event)'><span>{{item.todo}}</span> <button  v-key='item.todo' @click="todoList.splice(index, 1)">删除</button>
+                </template>
+            </div>
+        </div>
+        
+        <div>
+            <span>已完成</span>
+            <div v-for='item,index in todoList'> 
+                <template v-if='item.staus===1'>  
+                    <br><input  v-key='item.todo' type="checkbox" checked @click='pushTodo(item,$event)' ><span>{{item.todo}}</span> <button  v-key='item.todo' @click="todoList.splice(index, 1)">删除</button>
+                </template>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            newTodo:'',
+            todoList:[
+               {
+                todo:"还没有",
+                staus:0
+                },
+                {
+                todo:"eatasdasdas",
+                staus:0
+                },
+                {
+                todo:"eatasdasdas",
+                staus:0
+                },
+               {
+                todo:"fuckasdasd",
+                staus:1
+                },
+                {
+                todo:"fuckasdasd",
+                staus:1
+                },
+                {
+                todo:"fuckasdasd",
+                staus:1
+                }
+            ]
+        },
+        methods: {
+            pushTodo(){
+                // console.log(this.newTodo);
+                this.todoList.push({todo:this.newTodo,
+                    staus:0});
+                this.newTodo='';
+            },
+            pushDo(item,e){
+               let checked=e.target.checked;
+               if(checked){
+                   item.staus=1;
+               }
+            },
+            pushTodo(item,e){
+               let checked=e.target.checked;
+               if(!checked){
+                   item.staus=0;
+               }
+            }
+        },
+    })
+</script>
+</html>
