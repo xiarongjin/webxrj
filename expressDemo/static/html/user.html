@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link href="../img/icon.png" rel="shortcut icon">
+    <title>欢迎页</title>
+    <script src="../js/jQuery.js"></script>
+    <script>
+    function GetRequest() {  
+       var str=location.search; //获取url中"?"符后的字串  
+     return str.slice(1,str.length).split('=')[1]
+     
+
+    }  
+    $(document).ready(function(){
+    var username=GetRequest();
+    $('.title')[0].innerHTML=`hello! 欢迎<span style="color:orange;font-size:48px;font-style:italic;text-decoration: underline;">${username}</span>来到塞冷思de空间`;
+     })
+    </script>
+</head>
+<body>
+    <header>
+        <div class="headerBox">   
+            <div class="header">
+                <div class="leftBox fl">
+                    <a href="index.html">
+                        <img src="../img/logo.png" height="30" alt="">
+                    </a>
+                    <span>首页</span>
+                </div>
+                <div class="rightBox fr">
+                    <span>简体中文</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="contentBox">
+            <div class="content">
+                <div class="contentText" style="width: 600px;" >
+                    <div class="title" style="width: 600px;">hello! 欢迎来到塞冷思de空间</div>
+                    <span class="text" style="margin-top: 40px;">我是小猪1号服务员：不爱唱歌的小夏</span>
+                    <audio src="../img/goodbye.mp3" controls='controls' autoplay='autoplay' loop='loop'></audio> 
+                </div>
+                  
+            </div>
+        </div>  
+    </section>
+    <footer>
+        <div class="footerBox">
+            <a href="http://beian.miit.gov.cn/" target="_blank">赣ICP备2020013351号</a>
+        </div>
+    </footer>
+</body>
+</html>

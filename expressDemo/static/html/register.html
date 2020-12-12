@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/register.css">
+    <link href="../img/icon.png" rel="shortcut icon">
+    <title>塞冷思空间-注册页</title>
+    <script src="../js/jQuery.js"></script>
+    <script>
+        $(function(){ 
+            // $('input').val()='';
+            
+            var user={};
+            var judge={}
+            //判断用户名长度
+            $('[name=username]').on("input",function(){
+                // obj.username=this.val();if
+                let username=$('[name=username]').val()
+                // console.log(/^\w{6,9}$/.test(username)) 
+            
+            if(/^\w{0,9}$/.test(username)) {
+            //    console.log($('[tag=usesHide]')[0])
+            // $('[tag=usesHide]')[0].style='color:green'
+            $('[tag=usesHide]')[0].innerText="";
+                judge.nameCode=1;
+            } else {
+                $('[tag=usesHide]')[0].style='color:red'
+            $('[tag=usesHide]')[0].innerText=" 长度超出!";
+            judge.nameCode=0;
+            }
+            })
+
+            //失焦时将合法用户名加入用户对象
+            $('[name=username]').on('blur',function(){
+                if(judge.nameCode){
+                    user.name=$('[name=username]').val()
+                }else{
+                    alert('请输入合适的用户名')
+                }   
+            })
+
+            //判断密码规格
+            $('[name=password]').on("input",function(){
+                // obj.username=this.val();if
+                let username=$('[name=password]').val()
+                // console.log(/^\w{6,9}$/.test(username)) 
+                // console.log(/(^\w{6,9}$)||(^\w{0,0}$)/.test(username))
+            
+            if(/^\w{0,9}$/.test(username)) {
+            //    console.log($('[tag=usesHide]')[0])
+            // $('[tag=usesHide]')[0].style='color:green'
+            $('[tag=passHide]')[0].innerText="";
+                judge.passCode=1;
+            } else {
+                $('[tag=passHide]')[0].style='color:red'
+            $('[tag=passHide]')[0].innerText=" 长度超出!";
+            judge.passCode=0;
+            }
+            })
+            $('[name=password]').on('blur',function(){
+                if(judge.passCode){
+                    user.password=$('[name=password]').val()
+                }else{
+                    alert('请输入合适的密码');
+                }   
+            })
+             //确认密码
+             $('[name=conPassword]').on("input",function(){
+                // obj.username=this.val();if
+                let username=$('[name=conPassword]').val()
+                // console.log(/^\w{6,9}$/.test(username)) 
+                // console.log(/(^\w{6,9}$)||(^\w{0,0}$)/.test(username))
+                if(username==user.password){
+                    $('[tag=conpassHide]')[0].style='color:green'
+                    $('[tag=conpassHide]')[0].innerText="一致!";
+                    judge.passCode=1;
+                }else{
+                    $('[tag=conpassHide]')[0].style='color:red'
+                    $('[tag=conpassHide]')[0].innerText="确认密码!";
+                    judge.passCode=0;
+                }
+            })
+              //判断电话号码长度
+              $('[name=telnum]').on("input",function(){
+                // obj.username=this.val();if
+                let username=$('[name=telnum]').val()
+                // console.log(/^\w{6,9}$/.test(username)) 
+            
+            if(/^\d{11,11}$/.test(username)) {
+            //    console.log($('[tag=usesHide]')[0])
+            // $('[tag=usesHide]')[0].style='color:green'
+            $('[tag=telHide]')[0].innerText="";
+                judge.telCode=1;
+            } else {
+                $('[tag=telHide]')[0].style='color:red'
+            $('[tag=telHide]')[0].innerText="格式错误！";
+            judge.telCode=0;
+            }
+            })
+
+            //失焦时将合法用户名加入用户对象
+            $('[name=telnum]').on('blur',function(){
+                if(judge.nameCode){
+                    user.telnum=$('[name=telnum]').val()
+                }else{
+                    alert('请输入正确的电话号码')
+                }   
+            })
+            $('#submit').on('click',function(){
+                let code=1;
+                let name="abc";
+              for(let i in judge){
+                  if(judge[i]==0){
+                    code = 0;
+                    name = i;
+                  }
+              }
+              if (code==0) {
+                  switch (name) {
+                      case nameCode:
+                          alert('用户名错误：检查用户名！')
+                          break;
+                      case passCode:
+                            alert('密码错误：检查密码！')
+                            break;
+                        case telCode:
+                        alert('电话号码错误：检查电话号码！')
+                        break;
+                  
+                      default:
+                          break;
+                  }
+                  
+              }else{
+                $.ajax({
+                    url:'http://webxrj.top:3000/register',
+                    method:'post',
+                    data:user,
+                    success:function(res){
+                        console.log(res)
+                        if(res.code){
+                            alert(`恭喜${user.name}：注册成功！`);
+                            $(location).prop('href', `http://webxrj.top:3000/html/index.html`)
+                        } 
+                    },
+                    error:function () {
+                        throw error;
+                      }
+                    })
+                }
+                document.querySelectorAll('input').innerText='' ;
+            })
+})
+              
+              
+               
+            //    if (username==''||password=='') {
+            //        alert("任何一栏信息不能为空")
+            //    }else{
+                // $.ajax({
+                //     url:'http://192.168.18.182:3000/index',
+                //     method:'post',
+                //     data:`username=${username}&password=${password}`,
+                //     success:function(res){
+                //         console.log(res)
+                //     },
+                //     error:function () {
+                //         throw error;
+                //       }
+                // })
+            //    }
+
+    </script>
+</head>
+<body>
+    <header>
+        <div class="headerBox">   
+            <div class="header">
+                <div class="leftBox fl">
+                    <a href="index.html">
+                        <img src="../img/logo.png" height="30" alt="">
+                    </a>
+                    <span>注册</span>
+                </div>
+                <div class="rightBox fr">
+                    <span>简体中文</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="contentBox">
+            <div class="content">
+                <div class="contentText" >
+                    <div class="title">hello! 欢迎来到注册页</div>
+                    <span class="text">我是小猪1号服务员：不爱唱歌的小夏</span>
+                    
+                </div>
+                    <div class="photoBox">  
+                        <div class="lgBox">
+                            <div class="title">账号注册</div>
+                            <input type="text" value="" name="username" placeholder="请输入用户名（9以内位任意字符）"/><span tag='usesHide' ></span>
+                            <input type="password" value="" name="password"  placeholder="请输入密码（9以内位任意字符）"/><span tag='passHide'></span>
+                            <input type="password" value="" name="conPassword"  placeholder="确认密码"/><span tag='conpassHide'></span>
+                            <input type="text" value="" name="telnum"  placeholder="请输入11位常用电话号码"/><span  tag='telHide'></span>
+                            <button id="submit">注册</button>
+                            <span style="font-size: 12px;color:#999 ;display: block;margin-left: 0px;" >已有账号！返回<a style="color: tomato; font-size: 16px;" href="index.html">登录</a>页面</span> 
+                        </div>
+                    </div>
+            </div>
+        </div>  
+    </section>
+    <footer>
+        <div class="footerBox">
+            <a href="http://beian.miit.gov.cn/" target="_blank">赣ICP备2020013351号</a>
+        </div>
+    </footer>
+</body>
+    
+</body>
+</html>

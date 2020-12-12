@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小夏井字棋</title>
+    <style>
+        :root {
+            --bgs: #ecf4f7;
+            --bgm: #c1cfd0;
+            --bgl: #9ea49a;
+            --bgxl: #E8DAD1;
+            --bgxxl: #c9def1;
+            --bg: #88b8cc;
+            --bgxxxl: #51688a;
+            --bgxs: #f1e3dd;
+            --bgxxs: #262521;
+        }
+
+        /* 棋盘样式 */
+        .checkerboard {
+            margin-top: 80px;
+            /* cursor: pointer; */
+            width: 200px;
+            height: 200px;
+            display: block;
+            position: relative;
+            box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, .3);
+            /* text-align: center; */
+            /* border: 1px solid; */
+            float: left;
+            margin-left: 20px;
+            border-radius: 10px;
+            background: var(--bgxxxl);
+        }
+
+        table {
+            /* cursor: pointer; */
+            border: none;
+            background: var(--bg);
+            min-width: 120px;
+            outline: none;
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        tr {
+            height: 40px;
+            /* cursor: pointer; */
+            /* margin-top: -1px; */
+            border: none;
+        }
+
+        td {
+            /* cursor: pointer; */
+            margin-left: -1px;
+            width: 40px;
+            border: none;
+            border-top: 1px solid var(--bgxxxl);
+            border-left: 1px solid var(--bgxxxl);
+            /* border: 1px solid red; */
+            /* border-radius: 10px; */
+        }
+
+        /* 棋子样式 */
+        button {
+            /* border: 1px solid red; */
+            border: none;
+            margin: 0;
+            cursor: pointer;
+            outline-style: none;
+            background-color: transparent;
+            width: 40px;
+            color: var(--bgxxs);
+            vertical-align: top;
+            height: 40px;
+            font-size: 40px;
+            line-height: 40px;
+        }
+
+        /* 提示内容样式 */
+        .rightContent {
+            float: left;
+            width: 230px;
+            text-align: center;
+            position: relative;
+            /* border: 1px solid red; */
+            margin-left: 20px;
+            font-size: 26px;
+        }
+
+        /* 步骤提示 */
+        .tipInfo {
+            position: absolute;
+            top: 80px;
+            width: 300px;
+            height: 360px;
+            /* border: 1px solid; */
+            background-color: var(--bg);
+            border-radius: 8px;
+            box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
+        }
+
+        /* 开始游戏 */
+        .startgame {
+            background-color: var(--bgxxxl);
+            position: absolute;
+            width: 200px;
+            color: var(--bgs);
+            border-radius: 8px;
+            height: 50px;
+            line-height: 50px;
+            top: 270px;
+            left: -220px;
+            box-shadow: 2px 2px 3px 4px rgba(0, 0, 0, .2);
+        }
+
+        .startgame:hover {
+            box-shadow: none;
+            cursor: pointer;
+        }
+
+        .stepInfo {
+            background-color: antiquewhite;
+            margin: 8px auto;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+            width: 280px;
+            box-shadow: 2px 2px 3px 4px rgba(0, 0, 0, .2);
+            /* position: relative; */
+            /* top:60px; */
+        }
+
+        .stepInfo:hover {
+            cursor: pointer;
+            box-shadow: none;
+        }
+
+        /* 提示下一步和展示输赢 */
+        .tipTitle {
+            background-color: var(--bgxxl);
+            /* box-shadow:1px 1px 1px 1px rgba(0, 0, 0, .2); */
+            position: absolute;
+            font-size: 28px;
+            height: 60px;
+            line-height: 60px;
+            width: 420px;
+            border-radius: 8px;
+            top: 10px;
+            left: -170px;
+            /* border: 1px solid; */
+        }
+
+        .start {
+            /* background-color: antiquewhite; */
+            color: seagreen;
+        }
+
+        .winner {
+            color: red;
+        }
+        .tied {
+            color: tan;
+        }
+        .next {
+            color: #e7a408;
+        }
+        /*头部标题  */
+        .title {
+            font-size: 40px;
+            /* border: 1px solid; */
+        }
+
+        .titletip {
+            font-size: 15px;
+            /* border: 1px solid; */
+        }
+
+        /* 主体 */
+        #app {
+            position: relative;
+            width: 560px;
+            height: 600px;
+            color: #636363;
+            margin: 50px auto;
+            background-color: var(--bgs);
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, .1);
+            border: 1px solid var(--bgs);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script src="http://webxrj.top:3000/js/react.js"></script>
+<script src="http://webxrj.top:3000/js/react-dom.js"></script>
+<script src="http://webxrj.top:3000/js/babel.mini.js"></script>
+<script type="text/babel">
+    // 判断输赢方法 
+function winner(arr) { 
+    const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+    for (let i = 0; i < lines.length; i++) {
+        let isWinnerX=0;
+        let isWinnerO=0;
+        for(let j= 0;j<3;j++){
+        //  console.log(arr[lines[i][j]])
+        if (arr[lines[i][j]]=='x') {
+                isWinnerX++;
+                if (isWinnerX==3) {
+                return ({name:'x',data:lines[i]})
+                }
+            }else if(arr[lines[i][j]]=='o'){
+                isWinnerO++;
+                if(isWinnerO==3){
+                return ({name:'o',data:lines[i]})
+                } 
+            }
+        }
+        
+    }
+    if(arr.some(item=>item==null)){
+        return null
+    }else{
+        return ('平局')
+    }
+    }
+// 棋子组件
+function Piece(props){
+    let value = props.value;
+    let num =props.num;
+    let color = "";
+    let winnerStyleArr = props.winnerStyleArr;
+    function click(){
+        // alert('abc')
+        props.changeType()
+    }
+    if (winnerStyleArr==undefined) {
+        color='grey'
+    }else if (winnerStyleArr.includes(num)) {
+        color='red'
+    } 
+    return (
+            <td>
+                <button style={{color:color}}
+                className='piece' 
+                onClick={()=>click()}>
+                    {value}
+                </button>
+            </td>
+        ) 
+    
+    
+    
+}   
+// 井字格
+function Checkerboard(props){ 
+    let num = [0,1,2]
+    let value= props.values
+    let winnerStyleArr=props.winnerStyleArr
+    // 两层map得到九格棋盘
+    let board=num.map(m=>(
+        <tr>
+            {
+                num.map(n=>
+                <Piece 
+                    value={value[n+m*3]} winnerStyleArr={winnerStyleArr} 
+                    num={n+m*3}
+                    changeType={()=>props.changeType(n+m*3)}>
+                </Piece>
+                )
+            }
+        </tr>
+        ))
+  
+    return (
+        <div className='checkerboard'>
+            <table border='1' cellspacing='0'>
+                {board}
+            </table>     
+        </div> 
+    )        
+}
+// 提示下一步和展示胜负组件
+function TipTitle(props){
+ let  value=props.xIsNext?'x':'o';
+ let res=winner(props.value)
+      if (res==null) {
+          if (props.value.every(item=>item==null)) {
+              return (<div className='start'>开始："x"先落子</div>)
+          }
+          return(<div className='next'>下一步："{value}"</div>)
+      }else if(res=='平局'){
+          setTimeout(()=>alert(res),100)
+        
+       return(<div className='tied'>{res}:点击开始游戏再开始一局吧</div>)
+      }else{
+        setTimeout(()=> alert(res.name+'方赢'),100)
+        return(<div className='winner'>"{res.name}":胜</div>)  
+      } 
+}
+//记录步数组件
+function  TipInfo(props){  
+    let info=props.items.map((item,index)=>{
+              let  value=item.xIsNext?'o':'x';
+                if(index==0){
+                    return (<div className='startgame' key={index} onClick={()=>props.timeTrip(index)}>
+                                <span>开始游戏</span>
+                            </div>)
+                }else{
+                    return (
+                        <div className='stepInfo'>
+                            <div key={index} onClick={()=>props.timeTrip(index)}>
+                                <span>第{index}步："{value}"走了第{parseInt(item.i/3)+1}行{item.i%3+1}格</span>
+                            </div>
+                        </div>
+                        )
+                }
+            })    
+    return (<div className='tipInfo'>
+                {info}
+            </div>)
+}
+// 根组件
+class App extends React.PureComponent{
+        constructor(props){
+            super(props)
+            this.state={
+                isTimeTrip:false,
+                timeTripStep:0,
+                valuesHistory:Array(9).fill(),
+                values:Array(9).fill(),
+                xIsNext:true,
+                history:[
+                    {i: 10, xIsNext: true}
+                ],
+                winnerArray:[],
+            }
+        }
+    // 转换落子类型方法
+    changeType(i){
+        let values=this.state.values
+        let xIsNext=this.state.xIsNext;
+        let valuesHistory=this.state.valuesHistory
+        let history=[...this.state.history];
+        let isTimeTrip=this.state.isTimeTrip;
+        let timeTripStep=this.state.timeTripStep;
+       
+        
+        // // 初始化历史记录
+        valuesHistory=values
+        // 操作提示步骤的
+        isTimeTrip&&history.splice(timeTripStep+1)
+
+        
+        if(typeof(values[i])=='string'||winner(values)){
+            return
+        }else{
+            let value;
+            value=xIsNext?'x':'o';
+            values.splice(i,1,value);
+            valuesHistory.splice(i,1,value);
+            xIsNext=!xIsNext;
+            history.push({i,xIsNext})
+        }
+        let res=winner(values)
+        let winnerArray=[]
+        // console.log(res)
+        if (res) {
+         winnerArray = res.data
+        }
+        this.setState({
+            values,
+            xIsNext,
+            history,
+            valuesHistory,
+            isTimeTrip:false,
+            winnerArray
+        })
+        console.log(values,valuesHistory)
+    }
+    // 悔棋方法
+    timeTrip(n){
+        let values=[...this.state.values]
+        let isTimeTrip= this.state.isTimeTrip
+        let valuesHistory=[...this.state.valuesHistory]
+        let history=[...this.state.history]
+        var xIsNext= history[n].xIsNext;
+        if (isTimeTrip) {
+            values=[...valuesHistory]
+        }
+        for(let m=n+1;m<history.length;m++){
+            values[history[m].i]=undefined;
+        }
+        if (n==0) {
+            history.splice(n+1);
+            valuesHistory=Array(9).fill()
+        }
+        this.setState({
+            values,
+            xIsNext,
+            history,
+            valuesHistory,
+            isTimeTrip:true,
+            timeTripStep:n,
+        })  
+        console.log(values,valuesHistory)
+    }
+    render(h) {
+            return (
+                <div>
+                    <div className='title'>小夏井字棋</div>
+                    <div className='titletip'> （可悔棋：点击步数可回到那一步）</div>
+                   <Checkerboard winnerStyleArr={this.state.winnerArray} values={this.state.values} changeType={(i)=>this.changeType(i)}/>
+                    <div className='rightContent'>
+                        <div className='tipTitle'>
+                            <TipTitle xIsNext={this.state.xIsNext} value={this.state.values}/>
+                        </div>
+                        <TipInfo timeTrip={(i)=>this.timeTrip(i)} items={this.state.history}/>
+                   </div>   
+                </div>
+            )
+    }
+}
+ReactDOM.render(
+    <App/>,
+    document.getElementById('app')
+)
+</script>
+
+</html>

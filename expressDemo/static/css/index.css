@@ -1,0 +1,22 @@
+
+.contentText audio{
+    width: 300px;
+    outline: none;
+    position: absolute;
+    left: 0px;
+    top:200px;
+    /* height: 15px; */
+    /* transform: translateY(220%); */
+    /* display: block;
+    overflow: hidden; */
+ }
+
+
+ /* 登录面板 */
+ .photoBox .lgBox{
+    height: 330px;
+    width: 300px;
+    margin: 100px auto;
+    /* border:1px solid red; */
+}
+

@@ -1,0 +1,15 @@
+/* 注册面板 */
+.photoBox .lgBox{
+  height: 300px;
+    width: 380px;
+    margin: 50px auto;
+}
+.photoBox .lgBox .checkbox{
+    outline: none;
+    margin-left: 10px;
+    /* margin-top: 20px; */
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+/*  */

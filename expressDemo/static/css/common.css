@@ -1,0 +1,183 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* background-color:#c9def1 ; */    
+}
+body{
+    background-color: #f5f5f6;
+}
+a{
+    text-decoration: none;
+    color: #bbb;
+}
+ul,li{
+    list-style: none;
+}
+.fr{
+    float: right;
+}
+.fl{
+    float: left;
+}
+/* 头部 */
+header{
+    width: 100%;
+    position: relative;
+    height: 80px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);;
+}
+header .headerBox{
+    width: 1200px;
+    background-color: #fff;
+    margin: 0 auto;
+    /* border: 1px solid #000; */
+    height: 80px;
+}
+header .headerBox .header{
+    width: 1000px;
+    background-color: #fff;
+    margin: 0 auto;
+    /* border: 1px solid #000; */
+    height: 80px;
+}
+.leftBox{
+    margin:26.5px 0 ;
+  }
+.leftBox span{
+    text-align: left;
+    font-size: 24px;
+    color: #999;
+    display: inline-block;
+    padding: 0 10px;
+    vertical-align: bottom;
+    border-left: 1px solid #999;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+.rightBox{
+    /* position: absolute; */
+    /* top: 50%; */
+   
+    width: 400px;
+    /* background: #000; */
+    height: 80px;
+    /* transform: translateY(150%); */
+}
+
+.rightBox span{
+    float: right;
+    transform: translateY(80%);
+    padding:2px 5px;
+    font-size: 12px;
+    color: #999;
+    border: 1px solid #ededed;
+}
+/* 内容主体 */
+section{
+    /* height: 100%; */
+    width: 100%;
+    background-color: #f5f5f6;
+}
+/* 文本内容 */
+section .contentBox{
+    width: 1000px;
+    height: 600px;
+    margin:  0 auto;
+    position: relative;
+    border-bottom: 1px solid #cfd0d1 ;
+}
+.content{
+    width: 1000px;
+    height: 600px;
+    margin:  0 auto;
+    position: relative;
+    /* border-bottom: 1px solid #cfd0d1 ; */
+}
+.contentText{
+    display: block;
+    position: relative;
+    left: 0;
+    top: 100px;
+}
+section .contentBox .contentText .title{
+    position: absolute;
+    display: block;
+    text-align: left;
+    margin-bottom: 20px;
+    /* background: linear-gradient(circle, red, blue); */
+    /* background-color: red; */
+    /* position: absolute; */
+    /* color: transparent; */
+    background: linear-gradient(-4deg, red,  green ,pink, blue);
+    -webkit-background-clip: text;
+    color: transparent;
+    width: 500px;
+    /* left: 0; */
+    font-size: 28px;
+}
+.contentText .text{
+    display: block;
+    text-align: left;
+    position: absolute;
+    top: 60px;
+    color: #999;
+    width: 600px;
+    /* left: 0; */
+    font-size: 16px;
+}
+/* 右框内容 */
+.photoBox{
+    position: absolute;
+    top: 70px;
+    right: 0;
+    height: 460px;
+    width: 500px;
+    background-color: #fff;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
+}
+
+
+
+.photoBox .lgBox .title{
+    color: orange;
+    font-size: 24px;
+    width: 300px;
+    height: 42px;
+    padding: 0 0 5px ;
+    margin: 0 0 10px;
+}
+.photoBox .lgBox input{
+    width: 300px;
+    height: 42px;
+    margin: 0 0 10px;
+    padding-left: 10px ;
+    outline: tomato;
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+}
+.photoBox .lgBox input:focus{
+   border-color: tomato;
+    /* border: 1px solid tomato; */
+}
+.photoBox .lgBox button{
+    width: 300px;
+    height: 42px;
+    outline: none;
+    color: #fff;
+    background-color: tomato;
+    margin: 0 0 10px;
+    border: 1px solid #e6e6e6;
+}
+
+/* 底部内容 */
+footer{
+    background-color: #f5f5f6;
+    width: 1000px;
+    font-size: 12px;
+    color: #bbb;
+    margin: 0 auto;
+    height: 50px;
+}
